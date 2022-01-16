@@ -20,8 +20,9 @@
 *                                                                                      *
 ***************************************************************************************/
 
-function AlphabetSoup(str) { 
+const AlphabetSoup = (str) => str?.toLowerCase()?.split("")?.sort()?.join("")
 
-    return str.split("").sort().join("");
-         
-}
+console.log(AlphabetSoup('jeelelllellre'))
+console.log(AlphabetSoup('AhmedMansour'))
+console.log(AlphabetSoup('Amans199'))
+console.log(AlphabetSoup('hello'))
