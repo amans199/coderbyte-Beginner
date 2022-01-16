@@ -27,34 +27,55 @@
 *                                                                                      *
 ***************************************************************************************/
 
-function ArrayAdditionI(arr) { 
+const ArrayAddition = (arr) => {
+  if (!arr || !arr.length) return 'false'
 
-  arr.sort(function(a,b){return a - b});
-  var maxNum = arr.pop();
-  var tot = 0;
-    
-  for (var i = 0; i < arr.length; i++){
-    tot += arr[i];
-    for (var j = 0; j < arr.length; j++){
-      if (i != j) {
-        tot += arr[j];
-        if (tot == maxNum) {
-          return true;
-        }
-      }
-    }
-      
-    for (var k = 0; k < arr.length; k++) {
-      if (i != k) {
-        tot -= arr[k];
-        if (tot == maxNum) {
-          return true;
-        }
-      }
-    }
-    tot = 0;
-  }
-    
-  return false; 
-         
+  const [largest, ...rest] = arr.sort((a, b) => b - a)
+
+  return rest.reduce((acc, curr) => (acc + curr)) === largest ? 'true' : 'false'
 }
+
+console.log(ArrayAddition([])) //false
+console.log(ArrayAddition([1, 5, 6, 5])) //false
+console.log(ArrayAddition([1, 5, 6, 5, 2, 1])) //false
+console.log(ArrayAddition([1, 2, 3, 6])) //true
+console.log(ArrayAddition([1, 2, 3])) //true
+console.log(ArrayAddition([1, 2, 3, 7])) //false
+
+
+
+
+
+
+
+// function ArrayAdditionI(arr) {
+
+//   arr.sort(function (a, b) { return a - b });
+//   var maxNum = arr.pop();
+//   var tot = 0;
+
+//   for (var i = 0; i < arr.length; i++) {
+//     tot += arr[i];
+//     for (var j = 0; j < arr.length; j++) {
+//       if (i != j) {
+//         tot += arr[j];
+//         if (tot == maxNum) {
+//           return true;
+//         }
+//       }
+//     }
+
+//     for (var k = 0; k < arr.length; k++) {
+//       if (i != k) {
+//         tot -= arr[k];
+//         if (tot == maxNum) {
+//           return true;
+//         }
+//       }
+//     }
+//     tot = 0;
+//   }
+
+//   return false;
+
+// }
