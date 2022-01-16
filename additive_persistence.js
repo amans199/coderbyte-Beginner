@@ -25,21 +25,21 @@
 *                                                                                      *
 ***************************************************************************************/
 
-function AdditivePersistence(num) { 
+const numToArr = (num) => num.toString().split("")
 
-    var sum, loop = 0;
-    var val1 = num.toString(10).split("").map(function(t){return parseInt(t)});
-   
-    while (val1.length > 1) {
-        sum = 0;
-        val1.forEach( function(number) {
-            sum = sum + number;
-        });
-        
-        val1 = sum.toString(10).split("").map(function(t){return parseInt(t)});
-        loop++;
-    } 
-    
-    return loop;
-         
+const AdditivePersistence = (num, iterator = 1) => {
+    let sum = 0
+
+    numToArr(num).forEach(element => {
+        sum = sum + Number(element)
+    });
+
+    (numToArr(sum) && numToArr(sum).length > 1) && AdditivePersistence(sum, iterator++)
+
+    return iterator
 }
+
+console.log(AdditivePersistence(99999999999));
+console.log(AdditivePersistence(123));
+console.log(AdditivePersistence(1));
+console.log(AdditivePersistence(65));
