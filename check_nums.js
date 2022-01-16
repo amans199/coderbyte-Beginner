@@ -20,40 +20,13 @@
 ***************************************************************************************/
 
 const check_nums = (num1, num2) => {
-    if (!num1 || !num2 || num1===num2) return '-1'
-    return num2>num1 ? 'true' : 'false'
+    if (!num1 || !num2 || num1 === num2) return '-1'
+    return num2 > num1 ? 'true' : 'false'
 }
 
 
 console.log(check_nums(1, 3)) //true
 console.log(check_nums(5, 7)) //true
-console.log(check_nums(7,5)) //false
+console.log(check_nums(7, 5)) //false
 console.log(check_nums(7)) //-1
 console.log(check_nums()) //-1
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// function CheckNums(num1,num2) { 
-
-//   if (num1 === num2) {
-//     return "-1";
-//   } else if (num2 > num1) {
-//     return true;
-//   } else {
-//     return false;
-//   }
-         
-// }
