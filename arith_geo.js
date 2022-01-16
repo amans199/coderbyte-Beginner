@@ -35,32 +35,29 @@
 *                                                                                      *
 ***************************************************************************************/
 
-function ArithGeo(arr) { 
+const ArithGeo = (arr) => {
+  if (!arr || !arr.length || arr.length <= 2) return false
 
-  var arithFlag = true, geoFlag = true;
-  var diff = arr[1] - arr[0];
-  
-  for (var i = 2; i < arr.length; i++) {
-    if ((arr[i] - arr[i-1]) !== diff) {
-      arithFlag = false;
-    }
-  }
-  if (arithFlag) {
-    return "Arithmetic";
-  }
-  else { // check for geometric pattern
-    diff = arr[1] / arr[0];
-    for (var i = 2; i < arr.length; i++) {
-      if ((arr[i] / arr[i-1]) !== diff) { 
-        geoFlag = false;
-      }
-    }
-    if (geoFlag) {
-      return "Geometric";
-    }
-    else {
-      return "-1";
-    }
-  }
-  
+  let arith = 0
+  let geo = 0
+
+  arr.forEach((_, i) => {
+    // (arr[i] - arr[i - 1]) === (arr[i + 1] - arr[i])
+    if ((arr[i] - arr[i - 1]) === (arr[i + 1] - arr[i])) arith++
+
+    // arr[i] * (arr[i] / arr[i - 1]) === arr[i + 1]
+    if (arr[i] * (arr[i] / arr[i - 1]) === arr[i + 1]) geo++
+  })
+
+  if (arr.length - 2 === arith) return 'Arithmetic'
+  if (arr.length - 2 === geo) return 'Geometric'
+
+  return false;
 }
+
+console.log(ArithGeo([2, 4, 6, 8]) === 'Arithmetic') //true
+console.log(ArithGeo([2, 4, 5, 8]) === 'Arithmetic') //false
+console.log(ArithGeo([2, 4, 8]) === 'Arithmetic') //false
+console.log(ArithGeo([2, 6, 18, 54]) === 'Geometric') //true
+console.log(ArithGeo([2, 6]) === 'Geometric') //false
+console.log(ArithGeo([2, 6, 3]) === 'Geometric') //false
