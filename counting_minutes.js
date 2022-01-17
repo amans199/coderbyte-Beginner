@@ -31,36 +31,52 @@
 *    3) Else return false                                                              *
 *                                                                                      *
 ***************************************************************************************/
-function CountingMinutesI(str) { 
-    var time1Obj = {}, time2Obj = {}, timeDiff;
-    
-    time1Obj = setTimeObject(str, 0);
-    time2Obj = setTimeObject(str, 1);
-    
-    if (time1Obj.ampm == time2Obj.ampm && time1Obj.tot > time2Obj.tot) {
-        timeDiff = (((12 - time1Obj.hours + 12) * 60) - (time1Obj.mins)) + ((time2Obj.hours * 60) + time2Obj.mins);
-    } 
-    else if (time1Obj.ampm == time2Obj.ampm && time1Obj.tot < time2Obj.tot) {
-        timeDiff = ((time2Obj.hours * 60) + time2Obj.mins) - ((time1Obj.hours * 60) + time1Obj.mins);
-    }
-    else if (time1Obj.ampm !== time2Obj.ampm && time1Obj.ampm === "am") {
-        timeDiff = (((12 - time1Obj.hours) * 60) - time1Obj.mins) + ((time2Obj.hours * 60) + time2Obj.mins);
-    }
-    else { 
-        timeDiff = (((12 - time1Obj.hours) * 60) - time1Obj.mins) + ((time2Obj.hours * 60) + time2Obj.mins);
-    }
 
-    return timeDiff;
+
+
+const createTimeObj = time => time && ({
+    hour: Number(time.split(':')[0]) || 0,
+    minutes: Number(time.split(':')[1].slice(0, -2)) || 0,
+    suffix: time.toUpperCase().search(/PM/) !== -1 ? 'PM' : 'AM',
+})
+
+const timeTo24Sys = t => {
+    if (!t) return
+
+    if (t.hour === 12 && t.suffix === 'AM') return 0
+    if (t.hour !== 12 && t.suffix === 'PM') return t.hour + 12
+
+    return t.hour
 }
-    
-function setTimeObject(str, num) {
-    var arr = str.split("-");
-    var tObject = {};
-    
-    tObject.hours = Number(arr[num].slice(0,arr[num].length-2).split(":")[0]);
-    tObject.mins = Number(arr[num].slice(0,arr[num].length-2).split(":")[1]);
-    tObject.ampm = arr[num].slice(-2);
-    tObject.tot = tObject.hours * 100 + tObject.mins;
-    
-    return tObject;
+
+const constructTime = time => time && new Date(_year = 0, _month = 0, _day = 0, timeTo24Sys(time), time.minutes)
+
+const calcTimeDiff = (t1, t2) => {
+    if (!t1 || !t2) return
+
+    const diff = (constructTime(t2) - constructTime(t1)) / 60 / 1000
+
+    return Math.round(diff >= 0 ? diff : diff + (24 * 60))
 }
+
+const calcTime = (str) => {
+    if (!str) return
+    const time = str.split('-')
+
+    const t1 = createTimeObj(time[0])
+    const t2 = createTimeObj(time[1])
+
+    return calcTimeDiff(t1, t2)
+}
+
+console.log(calcTime('03:00PM-04:00PM') === 60)
+console.log(calcTime('03:00AM-11:00AM') === 480)
+console.log(calcTime('11:30AM-12:00PM') === 30)
+console.log(calcTime('12:30PM-01:00PM') === 30)
+console.log(calcTime('12:00AM-11:00AM') === 660)
+console.log(calcTime('06:00PM-02:00PM') === 1200)
+console.log(calcTime('11:00PM-12:00AM') === 60)
+console.log(calcTime('11:30PM-12:00AM') === 30)
+console.log(calcTime('11:30AM-12:30AM') === 780)
+console.log(calcTime('01:30AM-01:00AM') === 1410)
+console.log(calcTime('11:00AM-12:00PM') === 60)
